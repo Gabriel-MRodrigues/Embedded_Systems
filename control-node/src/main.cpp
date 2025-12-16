@@ -1,17 +1,18 @@
 #include <Arduino.h>
+#include "Sensors.h"
+
 const int LED_PIN = 2;
-const int BUTTON_PIN = 15;
 const int SERIAL_BAUD_RATE = 9600;
 
 void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
 
   pinMode(LED_PIN, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  initSensors();
 }
 
 void loop() {
-  if (digitalRead(BUTTON_PIN) == LOW) { // pressed
+  if (isButtonPressed()) { // pressed
     Serial.println("BUTTON PIN - LOW");
     digitalWrite(LED_PIN, HIGH);
   }
