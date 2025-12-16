@@ -7,5 +7,6 @@ void initSensors();
 
 bool isButtonPressed();
 
+bool isButtonPressedOnce();
 
 #endif
