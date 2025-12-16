@@ -7,5 +7,7 @@ void initActuators() {
 }
 
 void setStatusLED(bool on) {
-    digitalWrite(LED_PIN, on ? HIGH : LOW);
+    // LOW LED On
+    // HIGH LED off
+    digitalWrite(LED_PIN, on ? LOW : HIGH);
 }
