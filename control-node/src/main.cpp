@@ -1,18 +1,22 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+const int LED_PIN = 2;
+const int BUTTON_PIN = 15;
+const int SERIAL_BAUD_RATE = 9600;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(SERIAL_BAUD_RATE);
+
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  if (digitalRead(BUTTON_PIN) == LOW) { // pressed
+    Serial.println("BUTTON PIN - LOW");
+    digitalWrite(LED_PIN, HIGH);
+  }
+  else {
+    Serial.println("BUTTON PIN - HIGH");
+    digitalWrite(LED_PIN, LOW);
+  }
 }
