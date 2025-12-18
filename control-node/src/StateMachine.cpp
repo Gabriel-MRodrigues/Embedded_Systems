@@ -19,6 +19,7 @@ void updateStateMachine() {
     switch (currentState) {
         case STATE_IDLE:
             setStatusLED(false);
+            breakTone();
             
             if(isButtonPressedOnce()) {
                 currentState = STATE_MONITORING;
@@ -29,6 +30,7 @@ void updateStateMachine() {
         
         case STATE_MONITORING:
             setStatusLED(true);
+            setTone();
 
             if(isButtonPressedOnce()) { // motion detected by PIR Motion Sensor
                 currentState = STATE_IDLE;

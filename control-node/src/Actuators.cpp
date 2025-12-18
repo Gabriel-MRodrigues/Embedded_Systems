@@ -1,12 +1,21 @@
 #include "Actuators.h"
 
+//LED
 static const int LED_PIN = 2;
+
+//LCD
 static const int SDA_PIN = 13;
 static const int SCK_PIN = 14;
 LiquidCrystal_I2C lcd(0x27,16,2);
 
+//BUZZER
+static const int BUZZER_PIN = 4;
+static bool buzzerActive = false;
+
+
 void initActuators() {
     pinMode(LED_PIN, OUTPUT);
+    pinMode(BUZZER_PIN, OUTPUT);
     initLCD();
 }
 
@@ -47,4 +56,20 @@ bool i2CAddrTest(uint8_t addr) {
         return true;
     }
     return false;
+}
+
+
+
+void setTone() {
+    if (!buzzerActive) {
+        tone(BUZZER_PIN, 1000);
+        buzzerActive = true;
+    }
+}
+
+void breakTone() {
+    if (buzzerActive) {
+        noTone(BUZZER_PIN);
+        buzzerActive = false;
+    }
 }
