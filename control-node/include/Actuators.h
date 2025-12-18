@@ -16,6 +16,7 @@ void setLCDText(String str, int col = 0, int row = 0);
 bool i2CAddrTest(uint8_t addr);
 
 //Buzzer
+void initBuzzer();
 void setTone();
 void breakTone();
 

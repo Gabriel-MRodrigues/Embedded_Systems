@@ -10,6 +10,10 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 
 //BUZZER
 static const int BUZZER_PIN = 4;
+static const int BUZZER_CHANNEL = 0;
+static const int BUZZER_FREQ = 1000;
+static const int BUZZER_RESOLUTION = 8;
+static bool buzzerInitialized = false;
 static bool buzzerActive = false;
 
 
@@ -17,6 +21,7 @@ void initActuators() {
     pinMode(LED_PIN, OUTPUT);
     pinMode(BUZZER_PIN, OUTPUT);
     initLCD();
+    initBuzzer();
 }
 
 void setStatusLED(bool on) {
@@ -58,18 +63,26 @@ bool i2CAddrTest(uint8_t addr) {
     return false;
 }
 
-
+void initBuzzer() {
+    ledcSetup(BUZZER_CHANNEL, BUZZER_FREQ, BUZZER_RESOLUTION);
+    ledcAttachPin(BUZZER_PIN, BUZZER_CHANNEL);
+    buzzerInitialized = true;
+}
 
 void setTone() {
+    if (!buzzerInitialized) return;
+
     if (!buzzerActive) {
-        tone(BUZZER_PIN, 1000);
+        ledcWrite(BUZZER_CHANNEL, 128);
         buzzerActive = true;
     }
 }
 
 void breakTone() {
+    if (!buzzerInitialized) return;
+
     if (buzzerActive) {
-        noTone(BUZZER_PIN);
+        ledcWrite(BUZZER_CHANNEL, 0);
         buzzerActive = false;
     }
 }
