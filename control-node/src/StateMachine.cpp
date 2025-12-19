@@ -4,6 +4,10 @@
 
 static SystemState currentState = STATE_IDLE;
 
+//Timing
+static unsigned long alertStartTime = 0;
+static const unsigned long ALERT_DURATION_MS = 5000;
+
 void initStateMachine() {
     currentState = STATE_IDLE;
     Serial.println("STATE: IDLE");
@@ -30,19 +34,21 @@ void updateStateMachine() {
         
         case STATE_MONITORING:
             setStatusLED(true);
-            setTone();
+            breakTone();
 
-            if(isButtonPressedOnce()) { // motion detected by PIR Motion Sensor
-                currentState = STATE_IDLE;
-                Serial.println("STATE: IDLE");
-                setLCDText("IDLE");
+            if(motionJustStarted()) { // motion detected by PIR Motion Sensor
+                currentState = STATE_ALERT;
+                alertStartTime = millis();
+                Serial.println("STATE: ALERT");
+                setLCDText("ALERT");
             } 
             break;
 
         case STATE_ALERT: 
             setStatusLED(true);
-            // do something with buzzer
-            if(false) { // timing - alert duration
+            setTone();
+
+            if(millis() - alertStartTime >= ALERT_DURATION_MS) { // timing - alert duration
                 currentState = STATE_MONITORING;
                 Serial.println("STATE: MONITORING");
                 setLCDText("MONITORING");

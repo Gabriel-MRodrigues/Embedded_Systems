@@ -1,9 +1,11 @@
 #include "Sensors.h"
 
 static const int BUTTON_PIN = 15;
+static const int PIR_SENSOR_PIN = 33;
 
 void initSensors() {
     pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(PIR_SENSOR_PIN, INPUT);
 }
 
 bool isButtonPressed() {
@@ -28,4 +30,14 @@ bool isButtonPressedOnce() {
     lastState = currentState;
 
     return pressedEvent;
+}
+
+bool motionJustStarted() {
+    static bool lastState = false;
+    bool currentState = digitalRead(PIR_SENSOR_PIN) == HIGH;
+
+    bool triggered = (currentState && !lastState);
+    lastState = currentState;
+
+    return triggered;
 }

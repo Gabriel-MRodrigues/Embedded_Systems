@@ -9,4 +9,6 @@ bool isButtonPressed();
 
 bool isButtonPressedOnce();
 
+bool motionJustStarted();
+
 #endif
