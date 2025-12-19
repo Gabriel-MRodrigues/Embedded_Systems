@@ -24,10 +24,40 @@ void initActuators() {
     initBuzzer();
 }
 
-void setStatusLED(bool on) {
+void setStatusLED(SystemState state) {
     // LOW LED On
     // HIGH LED off
-    digitalWrite(LED_PIN, on ? LOW : HIGH);
+    switch (state) {
+        case STATE_IDLE:
+            digitalWrite(LED_PIN, HIGH);
+            break;
+        case STATE_MONITORING:
+            digitalWrite(LED_PIN, LOW);
+            break;
+        case STATE_ALERT:
+            blinkLED(250, 250);
+            break;
+        case STATE_MANUAL_OVERRIDE:
+            blinkLED(1000, 1000);
+            break;
+    }
+}
+
+void blinkLED(unsigned long onTime, unsigned long offTime) {
+    static unsigned long previousMillis = 0;
+    static bool ledState = LOW;
+    unsigned long currentMillis = millis();
+
+    if (ledState && (currentMillis - previousMillis >= onTime)) {
+        ledState = LOW;
+        previousMillis = currentMillis;
+        digitalWrite(LED_PIN, ledState);
+    }
+    else if (!ledState && (currentMillis - previousMillis >= offTime)) {
+        ledState = HIGH;
+        previousMillis = currentMillis;
+        digitalWrite(LED_PIN, ledState);
+    }
 }
 
 void initLCD() {

@@ -12,7 +12,7 @@ void initStateMachine() {
     currentState = STATE_IDLE;
     Serial.println("STATE: IDLE");
     setLCDText("IDLE");
-    setStatusLED(false);
+    setStatusLED(STATE_IDLE);
 }
 
 SystemState getCurrentState() {
@@ -22,7 +22,7 @@ SystemState getCurrentState() {
 void updateStateMachine() {
     switch (currentState) {
         case STATE_IDLE:
-            setStatusLED(false);
+            setStatusLED(STATE_IDLE);
             breakTone();
             
             if(isButtonPressedOnce()) {
@@ -33,7 +33,7 @@ void updateStateMachine() {
             break;
         
         case STATE_MONITORING:
-            setStatusLED(true);
+            setStatusLED(STATE_MONITORING);
             breakTone();
 
             if(motionJustStarted()) { // motion detected by PIR Motion Sensor
@@ -45,7 +45,7 @@ void updateStateMachine() {
             break;
 
         case STATE_ALERT: 
-            setStatusLED(true);
+            setStatusLED(STATE_ALERT);
             setTone();
 
             if(millis() - alertStartTime >= ALERT_DURATION_MS) { // timing - alert duration
@@ -56,7 +56,7 @@ void updateStateMachine() {
             break;
 
         case STATE_MANUAL_OVERRIDE:
-            setStatusLED(false);
+            setStatusLED(STATE_MANUAL_OVERRIDE);
             // do something
             break;
 

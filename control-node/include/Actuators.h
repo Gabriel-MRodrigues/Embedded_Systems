@@ -4,11 +4,13 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
+#include "StateMachine.h"
 
 void initActuators();
 
 //LED
-void setStatusLED(bool on);
+void setStatusLED(SystemState state);
+void blinkLED(unsigned long onTime, unsigned long offTime);
 
 //LCD
 void initLCD();
