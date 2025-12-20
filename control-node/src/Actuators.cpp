@@ -37,7 +37,7 @@ void setStatusLED(SystemState state) {
         case STATE_ALERT:
             blinkLED(250, 250);
             break;
-        case STATE_MANUAL_OVERRIDE:
+        case STATE_DISARM:
             blinkLED(1000, 1000);
             break;
     }

@@ -7,12 +7,14 @@ enum SystemState {
     STATE_IDLE,
     STATE_MONITORING,
     STATE_ALERT,
-    STATE_MANUAL_OVERRIDE
+    STATE_DISARM
 };
 
 void initStateMachine();
 
 void updateStateMachine();
+
+void setDisarmState();
 
 SystemState getCurrentState();
 

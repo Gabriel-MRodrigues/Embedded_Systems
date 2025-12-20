@@ -5,9 +5,8 @@
 
 void initSensors();
 
-bool isButtonPressed();
-
-bool isButtonPressedOnce();
+bool armButtonPressed();
+bool disarmButtonPressed();
 
 bool motionJustStarted();
 

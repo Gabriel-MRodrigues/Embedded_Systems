@@ -19,16 +19,25 @@ SystemState getCurrentState() {
     return currentState;
 }
 
+void setDisarmState() {
+    currentState = STATE_DISARM;
+    Serial.println("STATE: DISARMED");
+    setLCDText("DISARMED");
+}
+
 void updateStateMachine() {
     switch (currentState) {
         case STATE_IDLE:
             setStatusLED(STATE_IDLE);
             breakTone();
             
-            if(isButtonPressedOnce()) {
+            if(armButtonPressed()) {
                 currentState = STATE_MONITORING;
                 Serial.println("STATE: MONITORING");
                 setLCDText("MONITORING");
+            }
+            else if (disarmButtonPressed()) {
+                setDisarmState();
             }
             break;
         
@@ -41,7 +50,10 @@ void updateStateMachine() {
                 alertStartTime = millis();
                 Serial.println("STATE: ALERT");
                 setLCDText("ALERT");
-            } 
+            }
+            else if (disarmButtonPressed()) {
+                setDisarmState();
+            }
             break;
 
         case STATE_ALERT: 
@@ -53,11 +65,20 @@ void updateStateMachine() {
                 Serial.println("STATE: MONITORING");
                 setLCDText("MONITORING");
             }
+            else if (disarmButtonPressed()) {
+                setDisarmState();
+            }
             break;
 
-        case STATE_MANUAL_OVERRIDE:
-            setStatusLED(STATE_MANUAL_OVERRIDE);
-            // do something
+        case STATE_DISARM:
+            setStatusLED(STATE_DISARM);
+            breakTone();
+
+            if (disarmButtonPressed() || armButtonPressed()) {
+                currentState = STATE_IDLE;
+                Serial.println("STATE: IDLE");
+                setLCDText("IDLE");
+            }
             break;
 
     }
