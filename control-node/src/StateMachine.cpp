@@ -12,6 +12,7 @@ static const unsigned long ALERT_DURATION_MS = 5000;
 void initStateMachine() {
     currentState = STATE_IDLE;
     Serial.println("STATE: IDLE");
+    clearLCD();
     setLCDText("IDLE");
     setStatusLED(STATE_IDLE);
 }
@@ -23,6 +24,7 @@ SystemState getCurrentState() {
 void setDisarmState() {
     currentState = STATE_DISARM;
     Serial.println("STATE: DISARMED");
+    clearLCD();
     setLCDText("DISARMED");
 }
 
@@ -35,6 +37,7 @@ void updateStateMachine() {
             if(armButtonPressed()) {
                 currentState = STATE_MONITORING;
                 Serial.println("STATE: MONITORING");
+                clearLCD();
                 setLCDText("MONITORING");
             }
             else if (disarmButtonPressed()) {
@@ -51,6 +54,7 @@ void updateStateMachine() {
                 currentState = STATE_ALERT;
                 alertStartTime = millis();
                 Serial.println("STATE: ALERT");
+                clearLCD();
                 setLCDText("ALERT");
             }
             else if (disarmButtonPressed()) {
@@ -61,10 +65,12 @@ void updateStateMachine() {
         case STATE_ALERT: 
             setStatusLED(STATE_ALERT);
             setTone();
+            setLCDCountdown(ALERT_DURATION_MS, alertStartTime);
 
             if(millis() - alertStartTime >= ALERT_DURATION_MS) { // timing - alert duration
                 currentState = STATE_MONITORING;
                 Serial.println("STATE: MONITORING");
+                clearLCD();
                 setLCDText("MONITORING");
             }
             else if (disarmButtonPressed()) {
@@ -79,6 +85,7 @@ void updateStateMachine() {
             if (disarmButtonPressed() || armButtonPressed()) {
                 currentState = STATE_IDLE;
                 Serial.println("STATE: IDLE");
+                clearLCD();
                 setLCDText("IDLE");
             }
             break;

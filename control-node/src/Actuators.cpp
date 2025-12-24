@@ -71,8 +71,6 @@ void initLCD() {
 }
 
 void setLCDText(String str, int col, int row) {
-    lcd.clear();
-
     // col range is 0 to 15
     if (col > 15) col = 15;
     else if (col < 0) col = 0;
@@ -85,12 +83,30 @@ void setLCDText(String str, int col, int row) {
     lcd.print(str);
 }
 
+void clearLCD() {
+    lcd.clear();
+}
+
 bool i2CAddrTest(uint8_t addr) {
     Wire.beginTransmission(addr);
     if (Wire.endTransmission() == 0) {
         return true;
     }
     return false;
+}
+
+void setLCDCountdown(long ALERT_DURATION_MS, long alertStartTime) {
+    long elapsed = millis() - alertStartTime;
+    long remainingMs = ALERT_DURATION_MS - elapsed;
+
+    if (remainingMs < 0) remainingMs = 0;
+
+    String message = "Countdown: ";
+    setLCDText(message, 0, 1);
+
+    int remainingSeconds = remainingMs / 1000;
+
+    setLCDText(String(remainingSeconds), message.length(), 1);
 }
 
 void initBuzzer() {

@@ -16,6 +16,8 @@ void blinkLED(unsigned long onTime, unsigned long offTime);
 void initLCD();
 void setLCDText(String str, int col = 0, int row = 0);
 bool i2CAddrTest(uint8_t addr);
+void setLCDCountdown(long ALERT_DURATION_MS, long alertStartTime);
+void clearLCD();
 
 //Buzzer
 void initBuzzer();
