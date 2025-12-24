@@ -1,6 +1,7 @@
 #include "StateMachine.h"
 #include "Sensors.h"
 #include "Actuators.h"
+#include "Notifications.h"
 
 static SystemState currentState = STATE_IDLE;
 
@@ -46,6 +47,7 @@ void updateStateMachine() {
             breakTone();
 
             if(motionJustStarted()) { // motion detected by PIR Motion Sensor
+                sendDiscordNotification("ALERT: MOTION DETECTED");
                 currentState = STATE_ALERT;
                 alertStartTime = millis();
                 Serial.println("STATE: ALERT");
