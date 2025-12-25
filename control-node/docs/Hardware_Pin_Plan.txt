@@ -1,0 +1,8 @@
+LED - GPIO 2
+Button - GPIO 15
+PIR Motion Sensor - GPIO 12
+LDR Luminosity Sensor - GPIO 34 (ADC)
+Temp Sensor DHT11 - GPIO 35 (ADC)
+Servo - GPIO 18
+Buzzer - GPIO 19
+Relay - GPIO 23
