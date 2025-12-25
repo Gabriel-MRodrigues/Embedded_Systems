@@ -55,7 +55,7 @@ State transitions are handled through a centralized **state machine**.
 
 ## 🥅 Hardware Connection Diagram
 
-![Hardware Connection Diagram](/docs/images/Hardware_Connection_Diagram.png?raw=true 'Hardware Connection Diagram')
+<img src="/control-node/docs/images/Hardware_Connection_Diagram.png" alt="Connection_Diagram" width="550"/>
 
 ---
 
